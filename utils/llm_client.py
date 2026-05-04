@@ -6,6 +6,8 @@
 
 import json
 import os
+import time
+import traceback
 import anthropic
 from dotenv import load_dotenv
 from config.parametros import MODO_LLM, MODELO_API, MODELO_LOCAL, MAX_TOKENS
@@ -26,6 +28,7 @@ def _get_anthropic_client():
 
 def _llamar_api(fenotipo: str, user_prompt: str) -> dict:
     """Llamada a Claude Haiku via Anthropic API con prompt caching."""
+    time.sleep(0.3)  # delay para evitar rate limiting
     client = _get_anthropic_client()
     response = client.messages.create(
         model      = MODELO_API,
@@ -104,14 +107,17 @@ def llamar_llm(fenotipo: str, user_prompt: str) -> dict:
         return resultado
 
     except Exception as e:
-        # Fallback: lógica matemática original para no romper la sim
-        print(f"  [LLM fallback] {fenotipo} (modo={MODO_LLM}): {e}")
+        # Mostrar error completo para diagnostico
+        print(f"\n  [LLM ERROR] fenotipo={fenotipo} modo={MODO_LLM}")
+        print(f"  Tipo: {type(e).__name__}")
+        print(f"  Mensaje: {e}")
+        traceback.print_exc()
         decision = _fallback_matematico(fenotipo,
                                         _extraer_T(user_prompt),
                                         _extraer_S(user_prompt))
         return {
             "decision":      decision,
-            "justificacion": "[fallback matemático por error LLM]"
+            "justificacion": f"[fallback: {type(e).__name__}: {str(e)[:80]}]"
         }
 
 
