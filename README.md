@@ -83,9 +83,7 @@ proyecto_v2/
 
 ### 1. Clonar o descomprimir el proyecto
 
-```bash
-cd proyecto_v2
-```
+> Descargar el repositorio y descomprimirlo dentro de una carpeta
 
 ### 2. Instalar dependencias
 

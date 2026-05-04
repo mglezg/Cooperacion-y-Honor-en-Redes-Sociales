@@ -5,9 +5,14 @@
 # ============================================================
 
 import json
+import os
 import anthropic
+from dotenv import load_dotenv
 from config.parametros import MODO_LLM, MODELO_API, MODELO_LOCAL, MAX_TOKENS
 from config.system_prompts import SYSTEM_PROMPTS
+
+# Cargar variables del archivo .env automaticamente
+load_dotenv()
 
 # Cliente Anthropic singleton (se crea una sola vez)
 _anthropic_client = None
