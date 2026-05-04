@@ -22,7 +22,10 @@ _anthropic_client = None
 def _get_anthropic_client():
     global _anthropic_client
     if _anthropic_client is None:
-        _anthropic_client = anthropic.Anthropic()
+        _anthropic_client = anthropic.Anthropic(
+            timeout=30.0,   # 30 segundos max por llamada
+            max_retries=2   # reintenta automaticamente si falla
+        )
     return _anthropic_client
 
 
@@ -98,7 +101,12 @@ def llamar_llm(fenotipo: str, user_prompt: str) -> dict:
                 raw = raw[4:]
         raw = raw.strip()
 
-        resultado = json.loads(raw)
+        try:
+            resultado = json.loads(raw)
+        except json.JSONDecodeError:
+            # Imprimir respuesta cruda para diagnostico
+            print(f"  [JSON ERROR] respuesta cruda del LLM: {repr(raw[:200])}")
+            raise
 
         # Validar estructura
         if resultado.get("decision") not in ("COOPERAR", "DEFECTAR"):

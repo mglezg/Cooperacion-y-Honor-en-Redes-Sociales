@@ -40,4 +40,4 @@ MODO_LLM = "api"
 
 MODELO_API   = "claude-haiku-4-5-20251001"
 MODELO_LOCAL = "phi3"          # nombre del modelo en Ollama
-MAX_TOKENS   = 150             # respuesta corta: solo JSON
+MAX_TOKENS   = 300             # respuesta corta: solo JSON
