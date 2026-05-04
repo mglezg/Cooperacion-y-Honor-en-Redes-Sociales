@@ -4,8 +4,8 @@
 # ============================================================
 
 # ── PARÁMETROS ORIGINALES (sin cambios) ──────────────────────
-L      = 10       # Tamaño de la retícula L×L
-pasos  = 100      # Número de rondas de la simulación
+L      = 5       # Tamaño de la retícula L×L
+pasos  = 3      # Número de rondas de la simulación
 
 distrib_fenotipos = {
     'E': 0.2,
