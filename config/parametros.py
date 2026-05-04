@@ -8,11 +8,11 @@ L      = 5       # Tamaño de la retícula L×L
 pasos  = 3      # Número de rondas de la simulación
 
 distrib_fenotipos = {
-    'E': 0.2,
+    'E': 0.1,
     'P': 0.2,
-    'O': 0.2,
+    'O': 0.4,
     'A': 0.2,
-    'R': 0.2
+    'R': 0.1
 }
 
 tau_limites = (3, 10)
