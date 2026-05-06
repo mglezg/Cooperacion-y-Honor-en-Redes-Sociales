@@ -1,4 +1,5 @@
 import networkx as nx
+import numpy as np
 import random
 import imageio
 import os
@@ -126,6 +127,8 @@ def graficar_y_guardar_fenotipos(reticula, paso, parametros, carpeta="frames"):
     fig.patch.set_facecolor('#1a1a2e')
 
     conteo = Counter()
+    pos = {}
+
 
     for nodo in G.nodes:
         j   = G.nodes[nodo]['jugador']
@@ -135,7 +138,7 @@ def graficar_y_guardar_fenotipos(reticula, paso, parametros, carpeta="frames"):
             col = nodo % L
             row = nodo // L
 
-        pos[nodo] = np.array([col, -fila])
+        pos[nodo] = np.array([col, -row])
         conteo[j.fenotipo] += 1
 
         color_fondo          = COLORES.get(j.fenotipo, '#888888')
