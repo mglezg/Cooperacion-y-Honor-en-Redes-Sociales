@@ -129,9 +129,13 @@ def graficar_y_guardar_fenotipos(reticula, paso, parametros, carpeta="frames"):
 
     for nodo in G.nodes:
         j   = G.nodes[nodo]['jugador']
-        col = nodo % L
-        row = nodo // L
+        if isinstance(nodo, tuple):
+            row, col = nodo
+        else:
+            col = nodo % L
+            row = nodo // L
 
+        pos[nodo] = np.array([col, -fila])
         conteo[j.fenotipo] += 1
 
         color_fondo          = COLORES.get(j.fenotipo, '#888888')

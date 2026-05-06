@@ -22,6 +22,7 @@ from utils.visualizacion      import (graficar_resultados_globales,
                                       graficar_rendimiento_jugador)
 from utils.resize_imagenes    import pad_imagenes_en_carpeta
 from utils.matriz_pagos       import calcular_pagos_lineales
+from utils.visualizacion import generar_figura_simulacion
 
 crear_estructura()
 inicializar_logger()

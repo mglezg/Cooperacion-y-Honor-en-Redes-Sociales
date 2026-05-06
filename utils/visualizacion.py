@@ -3,6 +3,52 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import os
 
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def generar_figura_simulacion(G, pos, info_agentes, decisiones_ronda):
+    fig, ax = plt.subplots(figsize=(10, 10))
+    fig.patch.set_facecolor(ESTILO['fondo']) # Mantén el fondo oscuro consistente
+    
+    # Usamos las etiquetas cortas ('A', 'E', etc.) que vienen de tu lógica core
+    for node in G.nodes():
+        x, y = pos[node]
+        agente = info_agentes[node]
+        # Asegúrate de que 'fenotipo' sea la letra (A, E, O, P, R)
+        cod_fenotipo = agente['fenotipo'] 
+        rep = agente.get('reputacion', 0.5)
+        dec = decisiones_ronda.get(node, 'cooperar')
+        
+        # --- CANAL 1 y 3: Fondo y Brillo ---
+        # Brillo: Agentes con reputación < 0.5 se ven más opacos (marginados)
+        alfa = 1.0 if rep >= 0.5 else 0.3 
+        color_fondo = COLORES_FENOTIPOS.get(cod_fenotipo, '#A9A9A9')
+        
+        rect_fondo = patches.Rectangle((x-0.4, y-0.4), 0.8, 0.8, 
+                                      facecolor=color_fondo,
+                                      alpha=alfa, zorder=1)
+        ax.add_patch(rect_fondo)
+
+        # --- CANAL 2: Borde (Honradez) ---
+        color_borde = 'none'
+        if rep >= 0.7: color_borde = ESTILO['verde'] # Honrado
+        elif rep <= 0.3: color_borde = ESTILO['rojo'] # Deshonrado
+        
+        if color_borde != 'none':
+            rect_borde = patches.Rectangle((x-0.45, y-0.45), 0.9, 0.9, 
+                                          linewidth=2.5, edgecolor=color_borde, 
+                                          fill=False, zorder=2)
+            ax.add_patch(rect_borde)
+
+        # --- CANAL 4: Marcador central (Decisión) ---
+        # Blanco si cooperó, Gris oscuro si defectó
+        color_punto = 'white' if dec == 'cooperar' else '#333333'
+        ax.scatter(x, y, c=color_punto, s=120, edgecolors='none', zorder=3)
+
+    ax.set_aspect('equal')
+    ax.axis('off')
+    return fig
+
 # Paleta consistente con reticula_nx.py
 COLORES_FENOTIPOS = {
     'E': '#E15759',
